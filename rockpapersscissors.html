@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissors</title>
+        <style>
+            body
+            {
+                background-color: rgb(25, 25, 25);
+                color: white;
+                font-family:Arial;
+            }
+            .p1
+            {
+                font-size: 16px;
+                padding:8px 13px;
+                margin-top:10px;
+                margin: 5px;
+                cursor: pointer;
+                background-color: transparent;
+                border-color:white;
+                color:white;
+                border-radius:100px;
+                border: 2px solid;
+                height:120px;
+                width:120px;
+                margin-right:9px;
+            }
+            .d1
+            {
+                display: flex;
+            }
+            .title
+            {
+                font-size:22px;
+                font-weight:bold;
+            }
+            .rock-emoji,.paper-emoji,.scissors-emoji
+            {
+                height:50px;
+                width:50px;
+            }
+        </style>
+    </head>
+    <body>
+        <p class="title">Rock Paper Scissors</p>
+        <div class="d1">
+            <button class="p1" onclick="score.playGame('rock'); updateScore()"><img class='rock-emoji' src='images/rock-emoji.png'></button>
+            <button class="p1" onclick="score.playGame('paper'); updateScore()"><img class='paper-emoji' src='images/paper-emoji.png'></button>
+            <button class="p1" onclick="score.playGame('scissors'); updateScore()"><img class='scissors-emoji' src='images/scissors-emoji.png'></button>
+        </div>
+        <p id="status"></p>
+        <p id="score">Wins: 0, Losses: 0, Ties: 0</p>
+        <button class="rst" onclick="score.resetScore()">Reset Score</button>
+        <script>
+            const score = {
+                wins: 0, losses:0, ties:0,
+                    playGame(playerMove)
+                    {
+                        const moves = ['rock', 'paper', 'scissors'];
+                        const move = moves[Math.floor(Math.random() * 3)];
+
+                        let result = '';
+                        if (playerMove === move) {
+                            result = 'Tie!';
+                        } else if (
+                            (playerMove === 'rock' && move === 'scissors') ||
+                            (playerMove === 'paper' && move === 'rock') ||
+                            (playerMove === 'scissors' && move === 'paper')
+                        ) {
+                            result = 'You win!';
+                        } else {
+                            result = 'You lose!';
+                        }
+                        if(result=='You win!')
+                            score.wins+=1;
+                        else if(result=='You lose!')
+                            score.losses+=1;
+                        else
+                            score.ties+=1;
+                        console.log(move);
+                        document.getElementById("status").innerHTML=`${result} You picked <img src='images/${playerMove}-emoji.png' width='40px'>, 
+     Computer picked <img src='images/${move}-emoji.png' width='40px'>.`;
+                    },
+                    resetScore()
+                    {
+                        //document.getElementById("status").textContent = "Choose a button!";
+                        score.wins=0; score.losses=0; score.ties=0;
+                        updateScore();
+                    }
+                } 
+
+            function updateScore()
+            {
+                document.getElementById("score").textContent=`Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+            }  
+        </script>
+</body>
+
+</html>
