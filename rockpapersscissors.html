@@ -52,13 +52,13 @@
         <p id="score">Wins: 0, Losses: 0, Ties: 0</p>
         <button class="rst" onclick="score.resetScore()">Reset Score</button>
         <script>
+            const moves = ['rock', 'paper', 'scissors'];
             const score = {
                 wins: 0, losses:0, ties:0,
                     playGame(playerMove)
                     {
-                        const moves = ['rock', 'paper', 'scissors'];
                         const move = moves[Math.floor(Math.random() * 3)];
-
+            
                         let result = '';
                         if (playerMove === move) {
                             result = 'Tie!';
@@ -79,19 +79,37 @@
                             score.ties+=1;
                         console.log(move);
                         document.getElementById("status").innerHTML=`${result} You picked <img src='images/${playerMove}-emoji.png' width='40px'>, 
-     Computer picked <img src='images/${move}-emoji.png' width='40px'>.`;
+            Computer picked <img src='images/${move}-emoji.png' width='40px'>.`;
                     },
                     resetScore()
                     {
-                        //document.getElementById("status").textContent = "Choose a button!";
                         score.wins=0; score.losses=0; score.ties=0;
                         updateScore();
                     }
                 } 
-
+            
             function updateScore()
             {
                 document.getElementById("score").textContent=`Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+            }
+            
+            let active=false;
+            let id=null;
+            function autoPlay()
+            {
+                const ele=document.querySelector('.autop');
+                if(!active)
+                {
+                    id=setInterval(function() {score.playGame(moves[Math.floor(Math.random()*3)]); updateScore();},1000);
+                    active = true;
+                    ele.textContent='Stop Autoplay';
+                }
+                else
+                {
+                    clearInterval(id);
+                    active = false;
+                    ele.textContent='Autoplay';
+                }
             }  
         </script>
 </body>
