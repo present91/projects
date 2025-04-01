@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .butt {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: max-content;
+        }
+        button {
+            padding: 15px;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .display {
+            font-size: 24px;
+            margin-bottom: 10px;
+            min-height: 30px;
+            text-align: right;
+            padding: 5px;
+            border: 1px solid #000;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <p class="display" id="display"></p>
+    <div class="butt">
+        <button onclick="appendNumber('1')">1</button> 
+        <button onclick="appendNumber('2')">2</button> 
+        <button onclick="appendNumber('3')">3</button> 
+        <button onclick="appendOperator('+')">+</button>
+        <button onclick="appendNumber('4')">4</button> 
+        <button onclick="appendNumber('5')">5</button> 
+        <button onclick="appendNumber('6')">6</button> 
+        <button onclick="appendOperator('-')">-</button>
+        <button onclick="appendNumber('7')">7</button> 
+        <button onclick="appendNumber('8')">8</button> 
+        <button onclick="appendNumber('9')">9</button> 
+        <button onclick="appendOperator('*')">*</button>
+        <button onclick="appendNumber('0')">0</button> 
+        <button onclick="clearDisplay()">C</button> 
+        <button onclick="calculateResult()">=</button> 
+        <button onclick="appendOperator('/')">/</button>
+    </div>
+    
+    <script>
+        let expression='';
+        function appendNumber(num) 
+        {
+            expression += num;
+            updateDisplay();
+        }
+        function appendOperator(op) 
+        {
+            if (expression.length>0&&!isNaN(expression[expression.length-1])) 
+            {
+                expression+=op;
+                updateDisplay();
+            }
+        }
+        function clearDisplay() 
+        {
+            expression='';
+            updateDisplay();
+        }
+        function calculateResult() 
+        {
+            try 
+            {
+                expression=eval(expression).toString();
+                updateDisplay();
+            }
+            catch 
+            {
+                expression='Error';
+                updateDisplay();
+            }
+        }
+        function updateDisplay()
+        {
+            document.getElementById('display').textContent=expression;
+        }
+    </script>
+</body>
+</html>
