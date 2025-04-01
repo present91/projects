@@ -51,66 +51,67 @@
         <p id="status"></p>
         <p id="score">Wins: 0, Losses: 0, Ties: 0</p>
         <button class="rst" onclick="score.resetScore()">Reset Score</button>
+        <button class="autop" onclick="autoPlay()">Autoplay</button>
         <script>
-            const moves = ['rock', 'paper', 'scissors'];
-            const score = {
-                wins: 0, losses:0, ties:0,
-                    playGame(playerMove)
-                    {
-                        const move = moves[Math.floor(Math.random() * 3)];
-            
-                        let result = '';
-                        if (playerMove === move) {
-                            result = 'Tie!';
-                        } else if (
-                            (playerMove === 'rock' && move === 'scissors') ||
-                            (playerMove === 'paper' && move === 'rock') ||
-                            (playerMove === 'scissors' && move === 'paper')
-                        ) {
-                            result = 'You win!';
-                        } else {
-                            result = 'You lose!';
-                        }
-                        if(result=='You win!')
-                            score.wins+=1;
-                        else if(result=='You lose!')
-                            score.losses+=1;
-                        else
-                            score.ties+=1;
-                        console.log(move);
-                        document.getElementById("status").innerHTML=`${result} You picked <img src='images/${playerMove}-emoji.png' width='40px'>, 
-            Computer picked <img src='images/${move}-emoji.png' width='40px'>.`;
-                    },
-                    resetScore()
-                    {
-                        score.wins=0; score.losses=0; score.ties=0;
-                        updateScore();
+            const moves=['rock','paper','scissors'];
+            const score={
+                wins:0,losses:0,ties:0,
+
+                playGame(playerMove){
+                    const move=moves[Math.floor(Math.random()*3)];
+                    let result='';
+
+                    if(playerMove===move){
+                        result='Tie!';
+                    }else if(
+                        (playerMove==='rock'&&move==='scissors')||
+                        (playerMove==='paper'&&move==='rock')||
+                        (playerMove==='scissors'&&move==='paper')
+                    ){
+                        result='You win!';
+                    }else{
+                        result='You lose!';
                     }
-                } 
-            
-            function updateScore()
-            {
+
+                    if(result==='You win!')score.wins++;
+                    else if(result==='You lose!')score.losses++;
+                    else score.ties++;
+
+                    document.getElementById("status").innerHTML=`${result} You picked <img src='images/${playerMove}-emoji.png' width='40px'>, 
+                    Computer picked <img src='images/${move}-emoji.png' width='40px'>.`;
+
+                    updateScore();
+                },
+
+                resetScore(){
+                    score.wins=0;
+                    score.losses=0;
+                    score.ties=0;
+                    updateScore();
+                }
+            };
+
+            function updateScore(){
                 document.getElementById("score").textContent=`Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
             }
-            
+
             let active=false;
             let id=null;
-            function autoPlay()
-            {
+
+            function autoPlay(){
                 const ele=document.querySelector('.autop');
-                if(!active)
-                {
-                    id=setInterval(function() {score.playGame(moves[Math.floor(Math.random()*3)]); updateScore();},1000);
-                    active = true;
+                if(!active){
+                    id=setInterval(function(){
+                        score.playGame(moves[Math.floor(Math.random()*3)]);
+                    },1000);
+                    active=true;
                     ele.textContent='Stop Autoplay';
-                }
-                else
-                {
+                }else{
                     clearInterval(id);
-                    active = false;
+                    active=false;
                     ele.textContent='Autoplay';
                 }
-            }  
+            } 
         </script>
 </body>
 
